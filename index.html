@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FormularioDG</title>
+    <link rel="stylesheet" href="Css/estilo.css">
+     <link rel="stylesheet" 
+     href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wight@400;700&family=Poller+One&display=swap">
+</head>
+<body>
+    <header id="miFormulario">
+        <div class="header">
+                <img src="imagen/image.png" class="Logo" alt="Logo de la Empresa">
+                <h1>DG TURISMO</h1>
+                <p>Es una marca registrada de Distraccion Good Coop. Ltda.</p>
+                <div class="span">   
+                    Matricula Habilitante Nro: <span id="registro">68782 </span>
+                    Cuit: <span id="cuit">30-71822622-4</span> <br> 
+                    <label class="span" for="fechaVenta">Fecha de Venta:</label>  
+                    <input class="span" type="date" name="fechaVenta" id="fechaVenta">
+                </div>
+        </div>
+    </header>
+    <div class="container">
+      <h2>COMPROBANTE DE VIAJE</h2>
+        <form action="https://formspree.io/f/xnnqqoel" method="post" onsubmit="return validar();">
+            <div class="item-datos">
+                <h3>Datos del Pasajero</h3>            
+               <br>
+                <label class="form" for="pasajero">Pasajero:</label>
+                <input class="enter" type="text" name="pasajero" id="pasajero" placeholder="Nombre y Apellido">
+                <div class="texto" id="validar_pasajero" style="color:red"></div>
+                <br>
+                <label class="form" for="dni">Dni:</label>
+                <input class="enter" type="text" name="dni" id="dni" placeholder="Documento">
+                <div class="texto" id="validar_dni" style="color:red"></div>
+                <br>
+            </div>
+            <div class="item-datos2">
+                <label class="form" for="telefono">telefono:</label>
+                <input class="enter" type="tel" name="telefono" id="telefono" placeholder="telefono">
+                <div class="texto" id="validar_telefono" style="color:red"></div>
+                <br>
+                <label class="form" for="email">Email:</label>
+                <input class="enter" type="email" name="email" id="email" placeholder="Email">
+                <div class="texto" id="validar_email" style="color:red"></div>
+                <br>
+            </div>
+
+            <div class="item-descripcion">
+                <h3>Descripcion</h3><br><br>
+                <label class="form" for="empresa">Empresa:</label>
+                <input class="enter" type="text" name="empresa" id="empresa">
+                <div class="texto" id="validar_empresa" style="color: red"></div><br>
+                <label class="form" for="servicio">Servicio:</label>
+                <input class="enter" type="text" name="servicio" id="servicio" placeholder="Servicio Contratado">
+                <div class="texto" id="validar_servicio" style="color: red"></div>
+                <br>
+                 <label class="form" for="fechaDeViaje">Fecha De Salida:</label>
+                <input class="text" type="date" name="fechaDeViaje" id="fechaDeViaje">
+                <div class="texto" id="validar_fechaDeViaje" style="color:red"></div>
+                <br>
+                 <label class="form" for="fechaRegreso">Fecha de Regreso:</label>
+                <input class="enter" type="date" name="fechaRegreso" id="fechaRegreso">
+                <div class="texto" id="validar_fechaRegreso" style="color:red"></div>
+                <br>
+                <label class="form" for="origen">Origen:</label>
+                <input class="text" type="text" name="origen" id="origen" placeholder="Origen del Viaje">
+                <div class="enter" id="validar_origen" style="color: red"></div><br>
+                <label  class="form" for="destino">Destino:</label>
+                <input  class="enter" type="text" name="destino" id="destino" placeholder="Destino del Viaje">
+                <div class="texto" id="validar_destino" style="color: red"></div><br>
+                <label class="form" for="asiento">Asiento:</label>
+                <input class="enter" type="text" name="asiento" id="asiento" placeholder="N° de Asiento">
+                 <div class="texto" id="validar_asiento" style="color:red"></div>
+                <br>
+               
+                <div class="item-pagos"></div>
+                <h3>Forma de Pago</h3>
+                <br>
+                <label class="form" for="sena">Entrega de Seña:</label>
+                <input class="text" type="number" name="sena" id="sena" placeholder="Entrega de Seña">
+                 <div class="texto" id="validar_seña" style="color:red"></div>
+                <br>
+                <label class="form" for="importe">Pago Importe Total:</label>
+                <input class="enter" type="number" name="importe" id="importe" placeholder="Importe Total">
+                <div class="texto" id="validar_importe" style="color:red"></div>
+            
+            <br><br>
+
+            <div class="Observaciones">
+              <p>Observaciones</p>             
+              <textarea name="text" id="comentarios" 
+              cols="50" rows="6" placeholder="Escriba aqui el texto"></textarea>
+            </div>
+        </form>
+    </div>
+
+
+        <div>
+             <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+            <button id="download" type="button">Descargar PDF</button>
+        </div>
+        <script src="Js/main.js"></script>
+
+</body>
+<footer>
+    
+    <p>En caso de cancelacion por parte del pasajero no se reintegra el valor 
+    de la seña, el que se estipula en gastos administrativos. El no pago en
+    termino de las obligaciones contraidas de acuerdo a cada contratacion 
+    implica la cancelacion del paquete sin derecho a reintegros ni 
+    resarcimiento alguno. Los menores de Cuatro(4)años viajan sin cargo 
+    alguno, debiendo presentar al momento de la contratacion copia del DNI
+    (Documento Unico de Identidad). A partir de los Cuatro(4)años se abonara
+    el valor completo del paquete a exepcion de que el paquete contratado 
+    implique especificamente otras condicciones.Modificar los datos del 
+    pasajero posee un costo adiccional del 10% del valor del paquete y solo 
+    puede realizarse hasta 3 dias antes del viaje.</p>
+</footer>
+</html>
