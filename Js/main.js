@@ -216,6 +216,49 @@ async function generarPDF(){
         }
     }
 
+    // Añadir firma (imagen y texto) desde el footer del HTML, posicionada en el pie derecho
+    const firmaImgEl = document.querySelector('footer img.firmaRes');
+    const firmaTextEl = document.getElementById('firma');
+    const firmaText = firmaTextEl ? firmaTextEl.textContent.trim() : '';
+    if (firmaImgEl) {
+        try {
+            const imgUrlFirma = firmaImgEl.src;
+            const imgBytesFirma = await fetch(imgUrlFirma).then(r => r.arrayBuffer());
+            const pngFirma = await pdfDoc.embedPng(imgBytesFirma);
+            const pageWidth = page.getWidth ? page.getWidth() : 595;
+            const marginRight = 40;
+            const marginBottom = 30;
+
+            // preparar líneas de texto (nombre y leyenda)
+            const linesFirma = firmaText.split(/\n|\r/).map(l => l.trim()).filter(Boolean);
+            const fontSizeFirma = 10;
+            const lineHeightFirma = fontSizeFirma + 2;
+            const textBlockHeight = linesFirma.length * lineHeightFirma;
+
+            // fijamos ancho de imagen y calculamos alto
+            const imgWidth = 120;
+            const imgHeight = (pngFirma.height / pngFirma.width) * imgWidth;
+
+            // coordenadas para imagen: pegada al margen derecho, sobre el pie
+            const firmaX = pageWidth - marginRight - imgWidth;
+            const firmaY = marginBottom + textBlockHeight + 6;
+
+            page.drawImage(pngFirma, { x: firmaX, y: firmaY, width: imgWidth, height: imgHeight });
+
+            // dibujar texto debajo de la imagen, centrado respecto a la misma
+            let textY = marginBottom;
+            for (let i = 0; i < linesFirma.length; i++) {
+                const line = linesFirma[i];
+                const textWidth = font.widthOfTextAtSize(line, fontSizeFirma);
+                const textX = firmaX + (imgWidth - textWidth) / 2;
+                page.drawText(line, { x: textX, y: textY, size: fontSizeFirma, font });
+                textY += lineHeightFirma;
+            }
+        } catch (e) {
+            console.warn('No se pudo cargar la imagen de firma para el PDF:', e);
+        }
+    }
+
     // Guardar y descargar
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });

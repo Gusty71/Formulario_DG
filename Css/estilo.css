@@ -75,11 +75,45 @@ textarea{
     font-size: 16px;
     cursor: pointer;
 }
-footer,p{
+footer {
+    background: #f7f7f7;
+    padding: 20px 10px;
+    margin-top: 30px;
+}
+footer p{
+    text-align: left;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.3;
+    margin: 0 10px 10px 10px;
+}
+/* En móviles y vista general: apilar debajo del párrafo */
+.footer-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+.footer-text{
+    flex: 1 1 100%;
+    text-align: left;
+}
+.footer-signature{
+    flex: 0 0 auto;
     text-align: center;
-    font-size: 14px;
-    font-weight: 600;
-    margin-top: 25px;
-    margin-left: 20px;
+    margin-top: 6px;
+}
+.footer-signature img.firmaRes{
+    display: block;
+    margin: 0 auto;
+    max-width: 160px;
+    height: auto;
+}
+#firma{
+    font-size: 13px;
+    margin-top: 6px;
+    color: #222;
 }
 

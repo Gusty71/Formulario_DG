@@ -123,6 +123,49 @@ document.getElementById('download').addEventListener('click', async (e) => {
         }
     }
 
+    // Añadir firma (imagen y texto) desde el footer del HTML, posicionada en el pie derecho
+    try {
+        const firmaImgEl = document.querySelector('footer img.firmaRes');
+        const firmaTextEl = document.getElementById('firma');
+        const firmaText = firmaTextEl ? firmaTextEl.textContent.trim() : '';
+        if (firmaImgEl) {
+            const imgUrlFirma = firmaImgEl.src;
+            const resF = await fetch(imgUrlFirma);
+            if (resF.ok) {
+                const bytesF = await resF.arrayBuffer();
+                const pngFirma = await pdfDoc.embedPng(bytesF);
+                const pageWidth = page.getWidth ? page.getWidth() : 595.28;
+                const marginRight = 40;
+                const marginBottom = 30;
+
+                const linesFirma = firmaText.split(/\n|\r/).map(l => l.trim()).filter(Boolean);
+                const fontSizeFirma = 10;
+                const lineHeightFirma = fontSizeFirma + 2;
+                const textBlockHeight = linesFirma.length * lineHeightFirma;
+
+                const imgWidth = 120;
+                const imgHeight = (pngFirma.height / pngFirma.width) * imgWidth;
+
+                const xFirma = pageWidth - marginRight - imgWidth;
+                const yFirma = marginBottom + textBlockHeight + 6;
+
+                page.drawImage(pngFirma, { x: xFirma, y: yFirma, width: imgWidth, height: imgHeight });
+
+                // dibujar texto debajo de la imagen, centrado
+                let ty = marginBottom;
+                for (let i = 0; i < linesFirma.length; i++) {
+                    const line = linesFirma[i];
+                    const textWidth = font.widthOfTextAtSize(line, fontSizeFirma);
+                    const textX = xFirma + (imgWidth - textWidth) / 2;
+                    page.drawText(line, { x: textX, y: ty, size: fontSizeFirma, font });
+                    ty += lineHeightFirma;
+                }
+            }
+        }
+    } catch (e) {
+        console.warn('No se pudo añadir la firma al PDF editable:', e);
+    }
+
         form.updateFieldAppearances(font);
 
         const pdfBytes = await pdfDoc.save();
